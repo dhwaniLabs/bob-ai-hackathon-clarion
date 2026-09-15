@@ -78,8 +78,8 @@ CLARION provides an end-to-end operational platform that normalizes 6 heterogene
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/dhwaniLabs/bob-ai-hackathon-clarion.git
-cd bob-ai-hackathon-clarion
+git clone https://github.com/drijesh-ppatel/bob-ai-hackathon-submission-template.git
+cd bob-ai-hackathon-submission-template
 
 # 2. Windows One-Click Quickstart
 start_clarion.bat
