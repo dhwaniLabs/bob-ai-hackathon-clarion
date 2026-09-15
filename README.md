@@ -105,7 +105,7 @@ npm run dev
 
 | Artifact | Link |
 |---|---|
-| 📹 Demo Video | [See demo/demo-video-link.txt](demo/demo-video-link.txt) |
+| 📹 Demo Video | [Watch Demo Video](https://drive.google.com/file/d/1o-5r_pintNGiWSaPWSj-PgRZM2ysym0Z/view?usp=sharing) · [demo/demo-video-link.txt](demo/demo-video-link.txt) |
 | 🌐 Live Demo | [See demo/live-demo-url.txt](demo/live-demo-url.txt) |
 | 🖼️ Screenshots | [See demo/screenshots/](demo/screenshots/) |
 | 📊 Presentation | [See presentation/slides.pptx](presentation/slides.pptx) |
