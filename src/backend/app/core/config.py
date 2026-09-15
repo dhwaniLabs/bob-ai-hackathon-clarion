@@ -1,4 +1,5 @@
 import os
+import tempfile
 from typing import List, Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -10,8 +11,13 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_PREFIX: str = "/api"
     
-    # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./sentinel_fusion.db")
+    # Database (uses writable /tmp on Vercel serverless)
+    _default_db: str = (
+        f"sqlite:///{os.path.join(tempfile.gettempdir(), 'clarion.db')}".replace("\\", "/")
+        if os.getenv("VERCEL")
+        else "sqlite:///./sentinel_fusion.db"
+    )
+    DATABASE_URL: str = os.getenv("DATABASE_URL", _default_db)
     
     # IBM watsonx Configuration
     WATSONX_API_KEY: Optional[str] = os.getenv("WATSONX_API_KEY", None)

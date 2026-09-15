@@ -8,18 +8,24 @@ from app.database.seed_data import seed_database
 from app.api.router import api_router
 from app.models import * # ensure models loaded for schema creation
 
+def init_db():
+    """Ensure database schema is created and seeded with baseline data."""
+    try:
+        Base.metadata.create_all(bind=engine)
+        db = SessionLocal()
+        try:
+            seed_database(db)
+        finally:
+            db.close()
+    except Exception as e:
+        print(f"[{settings.APP_NAME}] Database init note: {e}")
+
+# Run database setup on load
+init_db()
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize database tables
-    Base.metadata.create_all(bind=engine)
-    
-    # Auto-seed initial operational baseline data if empty
-    db = SessionLocal()
-    try:
-        seed_database(db)
-    finally:
-        db.close()
-        
+    init_db()
     print(f"[{settings.APP_NAME}] Backend initialized successfully.")
     print(f"[{settings.APP_NAME}] Operational AI Mode: {settings.AI_MODE}")
     yield
@@ -40,8 +46,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount API
+# Mount API (both with /api and without prefix for seamless serverless routing)
 app.include_router(api_router, prefix=settings.API_PREFIX)
+app.include_router(api_router)
 
 @app.get("/")
 def root():
