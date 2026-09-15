@@ -1,4 +1,4 @@
-NOT DEPLOYED — run locally using docs/setup-guide.md (http://localhost:3000)
+https://bob-ai-hackathon-clarion-no6h-git-main-dhwani11.vercel.app/
 
 Accepted options:
   - A public URL (Vercel, Render, IBM Cloud, Railway, etc.)
