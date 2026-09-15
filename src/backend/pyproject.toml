@@ -2,7 +2,7 @@
 name = "clarion-backend"
 version = "1.0.0"
 description = "CLARION Threat Intelligence Correlation Backend"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.110.0",
     "uvicorn>=0.28.0",
