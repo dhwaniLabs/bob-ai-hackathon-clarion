@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ALT-JSON-01",
+    "timestamp": "2026-09-14T20:15:00Z",
+    "source": "Intelligence Report",
+    "source_type": "threat_intel_match",
+    "event_type": "c2_ip_indicator_match",
+    "severity": "high",
+    "src_ip": "198.51.100.45",
+    "dst_ip": "10.10.4.10",
+    "hostname": "dc-primary.mil.net",
+    "asset_id": "ASSET-104",
+    "description": "NSA Threat Bulletin: 198.51.100.45 actively engaged in APT-29 credential operations",
+    "raw_data": {"advisory": "NSA-2026-08", "threat_actor": "APT-29"}
+  },
+  {
+    "id": "ALT-JSON-02",
+    "timestamp": "2026-09-14T20:30:00Z",
+    "source": "Network Sensor",
+    "source_type": "scada_telemetry",
+    "event_type": "unauthorized_modbus_write",
+    "severity": "critical",
+    "src_ip": "10.10.4.10",
+    "dst_ip": "10.20.1.1",
+    "hostname": "scada-gw-01.grid.local",
+    "asset_id": "ASSET-107",
+    "description": "Unauthorized Modbus Function 16 register write attempt from compromised Domain Controller",
+    "raw_data": {"protocol": "Modbus TCP", "unit_id": 1, "function_code": 16}
+  }
+]

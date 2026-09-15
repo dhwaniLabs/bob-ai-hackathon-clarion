@@ -1,79 +1,111 @@
-# Setup Guide
+# Setup & Verification Guide: CLARION
 
-> **This file is read by the automated evaluation pipeline. Be precise and complete.**
+> **This file is read by the automated evaluation pipeline. Follow these instructions to run and test CLARION locally.**
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
+Ensure the following tools are installed:
 
-- [ ] [e.g., Python 3.11+]
-- [ ] [e.g., Node.js 18+]
-- [ ] [e.g., Docker Desktop]
-- [ ] [e.g., An IBM Cloud account with watsonx.ai access]
+- Python 3.11+ (Tested on Python 3.11 and 3.14)
+- Node.js 18+ and npm
+- (Optional) Docker and Docker Compose
+- (Optional) IBM Cloud account with watsonx.ai credentials (CLARION automatically falls back to its deterministic grounded engine if omitted)
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and fill in the values:
+Copy `src/.env.example` to `src/.env` (optional, defaults run out of the box with zero setup):
 
 ```bash
-cp .env.example .env
+cp src/.env.example src/.env
 ```
 
-| Variable | Description | Required |
-|---|---|---|
-| `WATSONX_API_KEY` | Your IBM watsonx.ai API key | Yes |
-| `WATSONX_PROJECT_ID` | Your watsonx.ai project ID | Yes |
-| `DATABASE_URL` | PostgreSQL connection string | Yes |
-| `SLACK_WEBHOOK_URL` | Slack webhook for alerts | No |
+| Variable | Description | Required | Default |
+|---|---|---|---|
+| `DATABASE_URL` | SQLite / PostgreSQL connection URI | No | `sqlite:///./clarion.db` |
+| `WATSONX_API_KEY` | IBM watsonx.ai API key | No | None (Falls back to offline Demo AI) |
+| `WATSONX_PROJECT_ID` | IBM watsonx.ai Project ID | No | None |
+| `WATSONX_URL` | watsonx endpoint URL | No | `https://us-south.ml.cloud.ibm.com` |
+| `WATSONX_MODEL_ID` | Model identifier | No | `ibm/granite-3-8b-instruct` |
+| `CORRELATION_WINDOW_MINUTES` | Dynamic sliding window | No | `30` |
 
-## Installation
+---
 
+## Installation & Running
+
+### Option 1: One-Click Windows Launcher (Fastest)
+
+From the repository root, double-click or execute:
+
+```cmd
+start_clarion.bat
+```
+
+This launches both the FastAPI backend and Vite frontend in separate terminal windows.
+
+---
+
+### Option 2: Manual Terminal Startup
+
+#### 1. Backend Setup & Run
 ```bash
-# 1. Clone the repository
-git clone https://github.com/[your-org]/[your-repo].git
-cd [your-repo]
-
-# 2. Install backend dependencies
-[your command — e.g.: pip install -r requirements.txt]
-
-# 3. Install frontend dependencies (if applicable)
-[your command — e.g.: cd frontend && npm install]
-
-# 4. Set up the database (if applicable)
-[your command — e.g.: python manage.py migrate]
+cd src/backend
+pip install -r requirements.txt
+python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
+- Interactive Swagger API Docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- Health Check: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
 
-## Running the Application
-
+#### 2. Frontend Setup & Run
+Open a new terminal window:
 ```bash
-# Start the backend
-[your command — e.g.: uvicorn app.main:app --reload]
-
-# Start the frontend (in a separate terminal, if applicable)
-[your command — e.g.: cd frontend && npm run dev]
+cd src/frontend
+npm install
+npm run dev
 ```
+- Access the Operations Console at: [http://localhost:3000](http://localhost:3000)
 
-The application will be available at: `http://localhost:[PORT]`
+---
 
-## Running Tests
-
+### Option 3: Docker Compose
 ```bash
-[your test command — e.g.: pytest tests/ -v]
+docker compose up --build
 ```
 
-## Quick Demo (Optional)
+---
 
-If you have a demo script or sample data to showcase the project quickly:
+## Running Automated Tests
 
+Run the complete backend test suite:
 ```bash
-[e.g.: python demo/seed_demo_data.py]
-[e.g.: open http://localhost:8000/demo]
+cd src/backend
+python -m pytest tests/
 ```
+**Expected Output:**
+```text
+collected 11 items
+tests/test_api_endpoints.py ........                                     [ 72%]
+tests/test_pipeline.py ...                                               [100%]
+======================= 11 passed in ~2.5s =======================
+```
+
+Run frontend build check:
+```bash
+cd src/frontend
+npm run build
+```
+**Expected Output:**
+```text
+✓ 2310 modules transformed.
+✓ built in ~8s
+0 errors
+```
+
+---
 
 ## Troubleshooting
 
-| Issue | Solution |
-|---|---|
-| [e.g., `ModuleNotFoundError`] | [e.g., Run `pip install -r requirements.txt` again] |
-| [e.g., Database connection refused] | [e.g., Ensure PostgreSQL is running: `docker compose up db`] |
-| [e.g., watsonx.ai 401 error] | [e.g., Check `WATSONX_API_KEY` in your `.env` file] |
+| Error / Symptom | Possible Cause | Resolution |
+|---|---|---|
+| `Port 8000 already in use` | Another uvicorn process is running | Terminate old process: `Stop-Process -Id (Get-NetTCPConnection -LocalPort 8000).OwningProcess` |
+| `Port 3000 already in use` | Another Vite server is running | Vite will offer port 3001 or kill existing node process on port 3000 |
+| `watsonx credentials missing` | No `.env` credentials provided | System automatically switches to `AI_MODE=DEMO` (Grounded local engine active) |

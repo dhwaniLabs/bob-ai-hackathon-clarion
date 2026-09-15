@@ -1,0 +1,8 @@
+id,timestamp,source,source_type,event_type,severity,src_ip,dst_ip,user,hostname,asset_id,description
+ALT-SMPL-01,2026-09-14T20:10:00Z,Firewall,network_flow,external_recon_scan,medium,198.51.100.45,10.10.4.10,,dc-primary.mil.net,ASSET-104,Inbound TCP SYN stealth port probe targeting Kerberos 88 and LDAP 389
+ALT-SMPL-02,2026-09-14T20:18:22Z,SIEM,authentication,suspicious_login,high,198.51.100.45,10.10.4.10,svc_backup,dc-primary.mil.net,ASSET-104,High-rate anomalous authentication burst using valid service account credentials
+ALT-SMPL-03,2026-09-14T20:25:40Z,Endpoint,process_execution,powershell_execution,high,10.10.4.10,,svc_backup,dc-primary.mil.net,ASSET-104,Base64-encoded PowerShell child process spawned by service host wrapper
+ALT-SMPL-04,2026-09-14T20:31:10Z,Endpoint,process_execution,privilege_escalation,critical,10.10.4.10,,NT AUTHORITY\SYSTEM,dc-primary.mil.net,ASSET-104,Access token impersonation escalating process privileges to elevated SYSTEM context
+ALT-SMPL-05,2026-09-14T20:36:55Z,IDS,memory_inspection,credential_dumping,critical,10.10.4.10,,NT AUTHORITY\SYSTEM,dc-primary.mil.net,ASSET-104,LSASS process memory scraping with Mimikatz signature detected
+ALT-SMPL-06,2026-09-14T20:44:12Z,Network Sensor,network_flow,c2_beaconing,critical,10.10.4.10,198.51.100.45,NT AUTHORITY\SYSTEM,dc-primary.mil.net,ASSET-104,Outbound TLS beaconing traffic to known hostile C2 IP address 198.51.100.45
+ALT-SMPL-07,2026-09-14T20:50:30Z,SIEM,lateral_movement,smb_exec_attempt,critical,10.10.4.10,10.20.1.1,admin_svc,scada-gw-01.grid.local,ASSET-107,Lateral execution probe targeting SCADA Gateway via remote administrative SMB share

@@ -1,6 +1,4 @@
-https://youtu.be/your-demo-video-link-here
-
-Replace the URL above with a link to your demo video.
+https://drive.google.com/drive/folders/1_VpGx80O6vXDjPyzzllirY3dsZDSgiHy?usp=sharing
 
 Accepted platforms:
   - YouTube (public or unlisted)
